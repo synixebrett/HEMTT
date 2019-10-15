@@ -26,10 +26,10 @@ impl Project {
     /// Get the name for .bisign files
     pub fn get_sig_name(&self, pbo: &str) -> Result<String, HEMTTError> {
         Ok(if self.sig_name.is_empty() {
-            format!("{}_{}.{}.bisign", &self.prefix, pbo, self.version()?)
+            format!("{}_{}.pbo.{}.bisign", &self.prefix, pbo, self.version()?)
         } else {
             format!(
-                "{}_{}.{}.bisign",
+                "{}_{}.pbo.{}.bisign",
                 &self.prefix,
                 pbo,
                 self.render(&self.sig_name, Some("project:sig_name"))?

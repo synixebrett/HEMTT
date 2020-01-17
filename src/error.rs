@@ -38,6 +38,10 @@ pub enum HEMTTError {
     PATH(IOPathError),
     SIMPLE(String),
     TOML(toml::ser::Error),
+
+    // Template Errors
+    NoTemplate,
+    MultiFileProjectRequired,
 }
 
 impl HEMTTError {
@@ -81,6 +85,9 @@ impl std::fmt::Display for HEMTTError {
             HEMTTError::PATH(ref err) => write!(f, "IO error {}: {}", err.path.display(), err.source),
             HEMTTError::SIMPLE(ref s) => write!(f, "{}", s),
             HEMTTError::TOML(ref err) => write!(f, "TOML error: {}", err),
+
+            HEMTTError::NoTemplate => write!(f, "no template defined"),
+            HEMTTError::MultiFileProjectRequired => write!(f, "a multi-file project is required"),
         }
     }
 }
@@ -94,6 +101,9 @@ impl std::error::Error for HEMTTError {
             HEMTTError::PATH(ref _err) => Some(self),
             HEMTTError::SIMPLE(ref _s) => Some(self),
             HEMTTError::TOML(ref err) => Some(err),
+
+            HEMTTError::NoTemplate => Some(self),
+            HEMTTError::MultiFileProjectRequired => Some(self),
         }
     }
 }

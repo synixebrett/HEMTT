@@ -102,12 +102,12 @@ pub struct Project {
     pub scripts: HashMap<String, crate::BuildScript>,
 }
 impl Project {
-    pub fn new(name: String, prefix: String, author: String, template: String) -> Self {
+    pub fn new(name: String, prefix: String, author: String) -> Self {
         Self {
             name,
             prefix,
             author,
-            template,
+            template: String::new(),
 
             version: String::new(),
 
@@ -145,7 +145,7 @@ impl Project {
         debug!("Root Directory: {:?}", root);
         std::env::set_current_dir(root)?;
 
-        if Path::new("hemtt.toml").exists() || Path::new("hemtt.json").exists() {
+        if single_file() {
             // Single file
             p.merge(File::with_name("hemtt").required(true))?;
         } else {
@@ -210,8 +210,9 @@ impl Project {
     /// Version number as defined or detected by the templating engine
     pub fn version(&self) -> Result<String, HEMTTError> {
         if self.version.is_empty() {
-            let template = crate::commands::Template::new();
-            template.get_version()
+            //let template = crate::commands::Template::new();
+            //template.get_version()
+            unimplemented!()
         } else {
             Ok(self.version.clone().trim().to_string())
         }
@@ -257,6 +258,10 @@ pub fn find_root() -> Result<PathBuf, HEMTTError> {
             return Err(HEMTTError::simple("No HEMTT Project File was found"));
         }
     }
+}
+
+pub fn single_file() -> bool {
+    Path::new("hemtt.toml").exists() || Path::new("hemtt.json").exists()
 }
 
 fn default_include() -> Vec<PathBuf> {

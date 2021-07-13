@@ -65,16 +65,20 @@ impl<I: Seek + Read> WritablePbo<I> {
         if size > u32::MAX {
             Err(std::io::Error::from(std::io::ErrorKind::Other))
         } else {
-            Ok(self
-                .files
-                .insert(filename.replace("/", "\\"), (file, Header {
-                    filename: filename.into(),
-                    method: 0,
-                    original: size,
-                    reserved: 0,
-                    timestamp: Timestamp::from_u32(0),
-                    size,
-                })))
+            Ok(self.files.insert(
+                filename.replace("/", "\\"),
+                (
+                    file,
+                    Header {
+                        filename: filename.into(),
+                        method: 0,
+                        original: size,
+                        reserved: 0,
+                        timestamp: Timestamp::from_u32(0),
+                        size,
+                    },
+                ),
+            ))
         }
     }
 

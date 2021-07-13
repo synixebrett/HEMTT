@@ -526,7 +526,6 @@ impl<'de, 'a> de::Deserializer<'de> for &'a mut Deserializer<'de> {
         } else {
             Err(Error::ExpectedEnum)
         }*/
-        
     }
 
     fn deserialize_identifier<V>(self, visitor: V) -> Result<V::Value, Error>

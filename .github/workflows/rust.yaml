@@ -2,9 +2,9 @@ name: Rust Checks
 
 on:
   push:
-    branches: [ experiment ]
+    branches: [ main ]
   pull_request:
-    branches: [ experiment ]
+    branches: [ main ]
 
 jobs:
   fmt:
